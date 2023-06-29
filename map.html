@@ -115,9 +115,9 @@
         const menuDiv = document.getElementById("menu");
         function initMap() {
 
-            const dublin = { lat: 53.3498, lng: -6.2603 };
+            const dublin = { lat: 53.27264627191735, lng: -6.216763246704953 };
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
+                zoom: 13,
                 center: new google.maps.LatLng(dublin),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 disableDefaultUI: false,
@@ -135,13 +135,14 @@
                                 .map(item => {
                                     return {
                                         name: item.Title,
-                                        coord: { lat: +item.Latitude, lng: +item.Longitude },
+                                        coord: { lat: +item.Latitude, lng: parseFloat(item.Longitude) },
                                         address: item.Address,
                                         color: "red",
                                     }
                                 })
                         }
                     })
+                console.log('menu', menu);
                 createMenu(menu)
             });
 
@@ -154,7 +155,7 @@
                     icon: {
                         path: google.maps.SymbolPath.CIRCLE,
                         scale: 10,
-                        fillColor: item.color,
+                        fillColor: "orange",
                         fillOpacity: 1,
                         strokeWeight: 1,
                         strokeColor: "white",
@@ -164,7 +165,6 @@
                 const oInfoBox = new google.maps.InfoWindow({
                     content: item.name,
                 });
-
                 const div = document.createElement("div");
                 div.innerHTML = item.name;
                 div.className = "item"
@@ -182,7 +182,6 @@
                     oInfoBox.close();
                 })
                 return div;
-
             }
 
             function createMenu(menu) {
