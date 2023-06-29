@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+
+<body>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .category {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        /* flex 2 columns menu 30% and map 70% */
+        .map-container {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+
+        #map {
+            width: 70%;
+        }
+
+        #menu {
+            width: 30%;
+            background-color: #363948;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            .map-container {
+                flex-direction: column;
+            }
+
+            #map {
+                width: 100%;
+                height: 50vh;
+            }
+
+            #menu {
+                width: 100%;
+            }
+        }
+
+        .item {
+            padding: 10px 10px 10px 35px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .item:hover {
+            color: #ccc;
+        }
+
+        .accordion {
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 17px;
+            font-weight: bold;
+            transition: 0.4s;
+            box-sizing: border-box;
+            user-select: none;
+            border-bottom: 1px solid white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .active,
+        .accordion:hover {
+            color: #ccc;
+        }
+
+        .panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        .arrow {
+            display: block;
+            width: 7px;
+            height: 7px;
+            border-top: 3px solid white;
+            border-left: 3px solid white;
+            transform: rotate(-135deg);
+            transition: transform 0.4s;
+        }
+
+        .down {
+            transform: rotate(45deg);
+        }
+    </style>
+
+    <div class="map-container">
+        <div id="menu"></div>
+        <div id="map"></div>
+    </div>
+
+    <script>
+        const menuDiv = document.getElementById("menu");
+
+        const menu = [
+            {
+                category: "Shopping & Leisure",
+                items: [
+                    {
+                        name: "Aldi",
+                        coord: { lat: 53.3498, lng: -6.2603 },
+                        color: "red",
+                    },
+                    {
+                        name: "Beacon South Quarter",
+                        coord: { lat: 53.3298, lng: -6.1603 },
+                        color: "red",
+                    },
+                ]
+            },
+            {
+                category: "Restaurants & Cafe`s",
+                items: [
+                    {
+                        name: "Ranchero Tarqueria",
+                        coord: { lat: 53.3098, lng: -6.2603 },
+                        color: "blue",
+                    },
+                    {
+                        name: "Beacon South Quarter",
+                        coord: { lat: 53.3098, lng: -6.1603 },
+                        color: "blue",
+                    },
+                ]
+            },
+
+        ]
+
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+
+
+        function initMap() {
+
+            const dublin = { lat: 53.3498, lng: -6.2603 };
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: new google.maps.LatLng(dublin),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                disableDefaultUI: false,
+            });
+
+            createMenu(menu)
+
+            function createMenuItem(item) {
+
+                const oMarker = new google.maps.Marker({
+                    position: item.coord,
+                    sName: item.name,
+                    map: map,
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 10,
+                        fillColor: item.color,
+                        fillOpacity: 1,
+                        strokeWeight: 1,
+                        strokeColor: "white",
+                    },
+                });
+                //add infobox to marker
+                const oInfoBox = new google.maps.InfoWindow({
+                    content: item.name,
+                });
+
+                const div = document.createElement("div");
+                div.innerHTML = item.name;
+                div.className = "item"
+                div.style.cursor = "pointer";
+                div.onclick = () => {
+                    map.setCenter(item.coord);
+                    map.setZoom(15);
+                }
+                div.addEventListener("mouseover", () => {
+                    //  open infobox
+                    oInfoBox.open(map, oMarker);
+                });
+                div.addEventListener("mouseout", () => {
+                    //  close infobox
+                    oInfoBox.close();
+                })
+                return div;
+
+            }
+
+            function createMenu(menu) {
+
+                const menuItems = menu.map(cat => {
+
+                    const catDiv = document.createElement("div");
+                    catDiv.innerHTML = cat.category;
+                    catDiv.className = "accordion";
+
+                    const arrow = document.createElement("i");
+                    arrow.classList.add("arrow");
+                    catDiv.appendChild(arrow);
+
+                    const panel = document.createElement("div");
+                    panel.className = "panel";
+
+                    cat.items.forEach(item => {
+                        const itemDiv = createMenuItem(item)
+                        panel.appendChild(itemDiv);
+                    })
+
+                    catDiv.addEventListener("click", function () {
+                        closeAll(cat.category)
+                        console.log('catDiv.classList.contains("active")', catDiv.classList.contains("active"));
+
+                        catDiv.classList.contains("active") ? close() : open()
+                    });
+
+                    function close() {
+                        catDiv.classList.remove("active");
+                        arrow.classList.remove("down");
+                        panel.style.maxHeight = null;
+                    }
+                    function open() {
+                        catDiv.classList.add("active");
+                        arrow.classList.add("down");
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+
+                    menuDiv.appendChild(catDiv);
+                    menuDiv.appendChild(panel);
+
+                    return {
+                        id: cat.category,
+                        close
+                    }
+                })
+
+                console.log('menuItems', menuItems);
+                function closeAll(id) {
+                    menuItems
+                        .filter(item =>
+                            item.id !== id
+                        ).forEach(item => {
+                            item.close();
+                        })
+                }
+
+            }
+        }
+    </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIyJB5jknwcsFH_fZzFakLJue7dOJLhDM&libraries=places&callback=initMap"
+        async defer></script>
+
+</body>
+
+</html>
