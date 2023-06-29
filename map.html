@@ -3,6 +3,8 @@
 
 
 <body>
+    <!-- add d3js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         html,
         body {
@@ -111,57 +113,6 @@
 
     <script>
         const menuDiv = document.getElementById("menu");
-
-        const menu = [
-            {
-                category: "Shopping & Leisure",
-                items: [
-                    {
-                        name: "Aldi",
-                        coord: { lat: 53.3498, lng: -6.2603 },
-                        color: "red",
-                    },
-                    {
-                        name: "Beacon South Quarter",
-                        coord: { lat: 53.3298, lng: -6.1603 },
-                        color: "red",
-                    },
-                ]
-            },
-            {
-                category: "Restaurants & Cafe`s",
-                items: [
-                    {
-                        name: "Ranchero Tarqueria",
-                        coord: { lat: 53.3098, lng: -6.2603 },
-                        color: "blue",
-                    },
-                    {
-                        name: "Beacon South Quarter",
-                        coord: { lat: 53.3098, lng: -6.1603 },
-                        color: "blue",
-                    },
-                ]
-            },
-
-        ]
-
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                }
-            });
-        }
-
-
         function initMap() {
 
             const dublin = { lat: 53.3498, lng: -6.2603 };
@@ -172,7 +123,27 @@
                 disableDefaultUI: false,
             });
 
-            createMenu(menu)
+
+            d3.csv("location_csv_1688036309.csv").then(function (data) {
+                //ID,Title,Address,Latitude,Longitude,Categories
+                const menu = [...new Set(data.map(item => item.Categories))]
+                    .filter(s => s !== "")
+                    .map(cat => {
+                        return {
+                            category: cat,
+                            items: data.filter(item => item.Categories === cat)
+                                .map(item => {
+                                    return {
+                                        name: item.Title,
+                                        coord: { lat: +item.Latitude, lng: +item.Longitude },
+                                        address: item.Address,
+                                        color: "red",
+                                    }
+                                })
+                        }
+                    })
+                createMenu(menu)
+            });
 
             function createMenuItem(item) {
 
