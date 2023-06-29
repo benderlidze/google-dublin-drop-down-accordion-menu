@@ -390,7 +390,7 @@
 
             function createMenuItem(item) {
 
-                const oMarker = new google.maps.Marker({
+                const marker = new google.maps.Marker({
                     position: item.coord,
                     sName: item.name,
                     map: map,
@@ -418,13 +418,16 @@
                 }
                 div.addEventListener("mouseover", () => {
                     //  open infobox
-                    oInfoBox.open(map, oMarker);
+                    oInfoBox.open(map, marker);
                 });
                 div.addEventListener("mouseout", () => {
                     //  close infobox
                     oInfoBox.close();
                 })
-                return div;
+                return {
+                    div,
+                    marker,
+                }
             }
 
             function createMenu(menu) {
@@ -442,9 +445,10 @@
                     const panel = document.createElement("div");
                     panel.className = "panel";
 
-                    cat.items.forEach(item => {
+                    const markers = cat.items.map(item => {
                         const itemDiv = createMenuItem(item)
-                        panel.appendChild(itemDiv);
+                        panel.appendChild(itemDiv.div);
+                        return itemDiv.marker;
                     })
 
                     catDiv.addEventListener("click", function () {
@@ -456,11 +460,17 @@
                         catDiv.classList.remove("active");
                         arrow.classList.remove("down");
                         panel.style.maxHeight = null;
+                        markers.forEach(marker => {
+                            marker.setOpacity(0.2);
+                        })
                     }
                     function open() {
                         catDiv.classList.add("active");
                         arrow.classList.add("down");
                         panel.style.maxHeight = panel.scrollHeight + "px";
+                        markers.forEach(marker => {
+                            marker.setOpacity(1);
+                        })
                     }
 
                     menuDiv.appendChild(catDiv);
@@ -481,7 +491,6 @@
                             item.close();
                         })
                 }
-
             }
         }
     </script>
