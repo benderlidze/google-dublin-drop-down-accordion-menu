@@ -10,6 +10,7 @@
         body {
             margin: 0;
             padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .category {
@@ -54,7 +55,7 @@
 
         .item {
             padding: 10px 10px 10px 35px;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid rgb(79, 79, 79);
         }
 
         .item:hover {
@@ -74,7 +75,7 @@
             transition: 0.4s;
             box-sizing: border-box;
             user-select: none;
-            border-bottom: 1px solid white;
+            border-bottom: 1px solid rgb(79, 79, 79);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -366,7 +367,7 @@
                 styles: mapStyle
             });
 
-            d3.csv("location_csv_1688036309.csv").then(function (data) {
+            d3.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vSuH5gcLL4qk5CQ9FWo-zXnr0Xl5jJz8Tn8EaNtVDc_pz0F7klpQORfaX8Mzt8s3Zsr9pJu7CeBA8cI/pub?output=csv").then(function (data) {
                 //ID,Title,Address,Latitude,Longitude,Categories
                 let num = 0;
                 const menu = [...new Set(data.map(item => item.Categories))]
@@ -382,9 +383,10 @@
                                         name: item.Title,
                                         coord: { lat: +item.Latitude, lng: parseFloat(item.Longitude) },
                                         address: item.Address,
-                                        color: "red",
+                                        color: item.Color,
                                     }
-                                })
+                                }),
+                            color: data.find(item => item.Categories === cat).Color
                         }
                     })
                 console.log('menu', menu);
@@ -400,12 +402,19 @@
                     icon: {
                         path: google.maps.SymbolPath.CIRCLE,
                         scale: 10,
-                        fillColor: "orange",
+                        fillColor: item.color,
                         fillOpacity: 1,
                         strokeWeight: 1,
                         strokeColor: "white",
                     },
-                    InfoWindow: null
+                    InfoWindow: null,
+                    label: {
+                        text: item.number + "",
+                        className: 'marker-label',
+                        fontSize: "13px",
+                        // fontWeight: "bold",
+                        color: 'white'
+                    }
                 });
 
                 //add infobox to marker
@@ -448,9 +457,11 @@
 
                 const menuItems = menu.map(cat => {
 
+                    console.log('cat', cat);
                     const catDiv = document.createElement("div");
                     catDiv.innerHTML = cat.category;
                     catDiv.className = "accordion";
+                    catDiv.style.color = cat.color;
 
                     const arrow = document.createElement("i");
                     arrow.classList.add("arrow");
