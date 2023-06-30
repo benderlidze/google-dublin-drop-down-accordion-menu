@@ -351,6 +351,9 @@
                 ]
             }
         ]
+
+        let currentCategory = ''
+
         function initMap() {
 
 
@@ -388,7 +391,7 @@
                 createMenu(menu)
             });
 
-            function createMenuItem(item) {
+            function createMenuItem(item, onMarkerClick) {
 
                 const marker = new google.maps.Marker({
                     position: item.coord,
@@ -402,12 +405,22 @@
                         strokeWeight: 1,
                         strokeColor: "white",
                     },
+                    InfoWindow: null
                 });
 
                 //add infobox to marker
                 const oInfoBox = new google.maps.InfoWindow({
                     content: item.name,
                 });
+                marker.InfoWindow = oInfoBox;
+
+                marker.addListener("click", () => {
+                    oInfoBox.open(map, marker);
+                    if (typeof onMarkerClick === "function") {
+                        onMarkerClick()
+                    }
+                });
+
                 const div = document.createElement("div");
                 div.innerHTML = item.number + ". " + item.name;
                 div.className = "item"
@@ -427,6 +440,7 @@
                 return {
                     div,
                     marker,
+                    oInfoBox
                 }
             }
 
@@ -446,15 +460,43 @@
                     panel.className = "panel";
 
                     const markers = cat.items.map(item => {
-                        const itemDiv = createMenuItem(item)
+                        const itemDiv = createMenuItem(item, () => {
+
+                            cloaseAllInfoBoxes()//clase all infoboxes
+                            itemDiv.marker.InfoWindow.open(map, itemDiv.marker);//open infobox
+
+                            //do not collapse the manu if the same category
+                            if (currentCategory === cat.category) {
+                                return
+                            } else {
+                                onClick()
+                            }
+
+                        })
                         panel.appendChild(itemDiv.div);
                         return itemDiv.marker;
                     })
 
                     catDiv.addEventListener("click", function () {
-                        closeAll(cat.category)
-                        catDiv.classList.contains("active") ? close() : open()
+                        onClick()
                     });
+
+                    function onClick() {
+                        currentCategory = cat.category
+                        closeAll(cat.category)
+                        status() ? close() : open()
+
+                        //checn if every status if false 
+                        console.log('menuItems', menuItems);
+                        const allClosed = menuItems.every(item => !item.status());
+                        if (allClosed) {
+                            menuItems.forEach(item => {
+                                item.markers.forEach(marker => {
+                                    marker.setOpacity(1);
+                                })
+                            })
+                        }
+                    }
 
                     function close() {
                         catDiv.classList.remove("active");
@@ -464,6 +506,7 @@
                             marker.setOpacity(0.2);
                         })
                     }
+
                     function open() {
                         catDiv.classList.add("active");
                         arrow.classList.add("down");
@@ -473,24 +516,40 @@
                         })
                     }
 
+                    function closeAll(id) {
+                        menuItems
+                            .filter(item =>
+                                item.id !== id
+                            ).forEach(item => {
+                                item.close();
+                            })
+                    }
+
+                    function status() {
+                        return catDiv.classList.contains("active")
+                    }
+
+                    function cloaseAllInfoBoxes() {
+                        menuItems.forEach(item => {
+                            console.log('item', item);
+                            item.markers.forEach(marker => {
+                                marker.InfoWindow.close();
+                            })
+                        })
+                    }
+
                     menuDiv.appendChild(catDiv);
                     menuDiv.appendChild(panel);
 
                     return {
                         id: cat.category,
-                        close
+                        close,
+                        status,
+                        markers
                     }
                 })
 
-                console.log('menuItems', menuItems);
-                function closeAll(id) {
-                    menuItems
-                        .filter(item =>
-                            item.id !== id
-                        ).forEach(item => {
-                            item.close();
-                        })
-                }
+
             }
         }
     </script>
