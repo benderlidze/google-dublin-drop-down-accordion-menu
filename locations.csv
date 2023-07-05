@@ -1,0 +1,32 @@
+ID,Title,Address,Latitude,Longitude,Categories,Color,Icon
+1,The Hudson,"Sandyford, Dublin, Ireland",53.279179,-6.211897,,,
+2,Aldi,"Sandyford, Dublin",53.2795021,-6.212726981,Shoppping & Leisure,#cf6981,/icons/aldi.png
+3,Beacon South Quarter,"Beacon South Quarter, Blackthorn Road, Sandyford, Dublin, Ireland",53.2775421,-6.2166745,Shoppping & Leisure,#cf6982,/icons/aldi.png
+4,Dunnes Stores,"Dunnes Stores- Beacon Court, Sandyford, Dublin 18, Ireland",53.2782605,-6.2160379,Shoppping & Leisure,#cf6983,/icons/aldi.png
+5,Stillorgan Village Shopping Centre,"Stillorgan Village, Lower Kilmacud Road, Stillorgan, Dublin, Ireland",53.2894327,-6.200196,Shoppping & Leisure,#cf6984,/icons/aldi.png
+6,Supervalu,"SuperValu, Sandyford, Dublin, Ireland",53.2765622,-6.2239527,Shoppping & Leisure,#cf6985,/icons/aldi.png
+7,The Beacon Barber,"New plaza Barbers, Sandyford, Dublin, Ireland",53.2771287,-6.2161947,Shoppping & Leisure,#cf6986,/icons/aldi.png
+8,Ranchero Taqueria,"Square One Cafe, Blackthorn Drive, Sandyford, Dublin 18, Ireland",53.2794369,-6.2141488,Restaurant's & Cafés,#fda400,/icons/aldi.png
+9,Starbucks,"Starbucks Coffee, Sandyford, Dublin 18, Ireland",53.2773057,-6.2177253,Restaurant's & Cafés,#fda401,/icons/aldi.png
+10,Elephant and Castle,"Elephant & Castle, Sandyford, Dublin 18, Ireland",53.2780006,-6.2154177,Restaurant's & Cafés,#fda402,/icons/aldi.png
+11,Zambero,"Zambrero Beacon, Sandyford, Dublin, Ireland",53.2771096,-6.2166474,Restaurant's & Cafés,#fda403,/icons/aldi.png
+12,The Coffee Shot,"The Coffee Shot, Sandyford, Dublin 18, Ireland",53.2772218,-6.2172995,Restaurant's & Cafés,#fda404,/icons/aldi.png
+13,Musashi,"Musashi Sandyford Noodles & Sushi Bar, Blackthorn Road, Sandyford, Dublin 18, Ireland",53.2769924,-6.2182024,Restaurant's & Cafés,#fda405,/icons/aldi.png
+14,Zaytoon,"Zaytoon Sandyford, Sandyford, Dublin 18, Ireland",53.2766204,-6.2164357,Restaurant's & Cafés,#fda406,/icons/aldi.png
+15,Sushida Ramen,"Sushida Sandyford, Corrig Road, Sandyford, Dublin 18, Ireland",53.276579,-6.2147511,Restaurant's & Cafés,#fda407,/icons/aldi.png
+16,Blackthorn Park and Playground,"Blackthorn Park Playground, Drummartin Link Road, Sandyford, Dublin, Ireland",53.2785068,-6.2224138,Parks & Sporting Facilities,#87bd29,/icons/aldi.png
+17,Naomh Olaf Gaa Club,"Naomh Olaf GAA Club, Holly Avenue, Stillorgan Business Park, Dublin, Ireland",53.2804371,-6.2210145,Parks & Sporting Facilities,#87bd30,/icons/aldi.png
+18,Leopardstown Racecourse / Golf Centre,"Leopardstown Racecourse, Foxrock, Dublin 18, Ireland",53.266888,-6.1954649,Parks & Sporting Facilities,#87bd31,
+19,Silverpark GAA Grounds,"Silverpark GAA grounds, Tudor Lawns, Stillorgan, Dublin, Ireland",53.27374,-6.194197,Parks & Sporting Facilities,#87bd32,
+20,Leopardstown Tennis Club,"Leopardstown Tennis Club, Leopardstown Grove, Stillorgan, Dublin, Ireland",53.2790738,-6.1938109,Parks & Sporting Facilities,#87bd33,
+21,Clonmore Park and Playground,"Clonmore Park, Stillorgan Heath, Leopardstown, Dublin, Ireland",53.2821863,-6.2023626,Parks & Sporting Facilities,#87bd34,/icons/aldi.png
+22,Kilmacud Crokes GAA Club,"Kilmacud Crokes GAA Club, Glenalbyn Road, Stillorgan, Dublin, Ireland",53.2864406,-6.2001023,Parks & Sporting Facilities,#87bd35,/icons/aldi.png
+23,Goatstown Stillorgan Educate Together National School,"Goatstown Stillorgan Educate Together National School, Ballymoss Road, Sandyford Business Park, Dublin, Ireland",53.2784033,-6.211323,Education & Healthcare,#3d9cdc,/icons/aldi.png
+24,St. Raphaela's Primary and Secondary Girls' Schools,"St. Raphaela's Secondary School, Saint Raphaela's Road, Kilmacud, Dublin, Ireland",53.2830554,-6.2056634,Education & Healthcare,#3d9cdc,/icons/aldi.png
+25,St. Benildus College for Boys,"St. Benildus College, Kilmacud Road Upper, Stillorgan, Dublin, Ireland",53.2846666,-6.221372,Education & Healthcare,#3d9cdc,/icons/aldi.png
+26,St Olafs National School,"St Olafs National School, Balally Drive, Dundrum, Dublin 16, Ireland",53.2824133,-6.2264914,Education & Healthcare,#3d9cdc,/icons/aldi.png
+27,Nord Anglia International School Dublin,"Nord Anglia International School Dublin, Carmanhall and Leopardstown, Dublin, Ireland",53.266763,-6.198633,Education & Healthcare,#3d9cdc,/icons/aldi.png
+28,Beacon Hospital,"Beacon Hospital, Bracken Road, Sandyford Business Park, Dublin 18, Ireland",53.2768328,-6.2194332,Education & Healthcare,#3d9cdc,/icons/aldi.png
+29,Explorium - National Sport & Science Centre,"Explorium - National Sport & Science Centre, Blackglen Road, Sandyford, Dublin, Ireland",53.2668535,-6.2376714,Education & Healthcare,#3d9cdc,/icons/aldi.png
+30,Central Park,"Central Park, Sandyford Road, Dundrum, Dublin 16, Ireland",53.2865142,-6.2392916,Employment Zones,#07b8a4,/icons/aldi.png
+31,South County Business Park,"South County Business Park, Carmanhall and Leopardstown, Dublin 18, Ireland",53.2696751,-6.199282,Employment Zones,#07b8a5,/icons/aldi.png

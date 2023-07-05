@@ -367,7 +367,7 @@
                 styles: mapStyle
             });
 
-            d3.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vSuH5gcLL4qk5CQ9FWo-zXnr0Xl5jJz8Tn8EaNtVDc_pz0F7klpQORfaX8Mzt8s3Zsr9pJu7CeBA8cI/pub?output=csv").then(function (data) {
+            d3.csv("locations.csv").then(function (data) {
                 //ID,Title,Address,Latitude,Longitude,Categories
                 let num = 0;
                 const menu = [...new Set(data.map(item => item.Categories))]
@@ -384,6 +384,7 @@
                                         coord: { lat: +item.Latitude, lng: parseFloat(item.Longitude) },
                                         address: item.Address,
                                         color: item.Color,
+                                        icon: item.Icon
                                     }
                                 }),
                             color: data.find(item => item.Categories === cat).Color
@@ -412,10 +413,14 @@
                         text: item.number + "",
                         className: 'marker-label',
                         fontSize: "13px",
-                        // fontWeight: "bold",
                         color: 'white'
                     }
                 });
+
+                if (item.icon && item.icon !== "") {
+                    marker.setIcon(item.icon)
+                    marker.setLabel("")
+                }
 
                 //add infobox to marker
                 const oInfoBox = new google.maps.InfoWindow({
@@ -476,7 +481,7 @@
                             cloaseAllInfoBoxes()//clase all infoboxes
                             itemDiv.marker.InfoWindow.open(map, itemDiv.marker);//open infobox
 
-                            //do not collapse the manu if the same category
+                            //do not collapse the menu if the same category
                             if (currentCategory === cat.category) {
                                 return
                             } else {
@@ -501,12 +506,25 @@
                         console.log('menuItems', menuItems);
                         const allClosed = menuItems.every(item => !item.status());
                         if (allClosed) {
+                            const bounds = new google.maps.LatLngBounds();
                             menuItems.forEach(item => {
                                 item.markers.forEach(marker => {
                                     marker.setOpacity(1);
+                                    bounds.extend(marker.getPosition());
                                 })
                             })
+                            map.fitBounds(bounds);
+                            console.log('allClosed');
+                            return
                         }
+
+                        //fit bound markers 
+                        const bounds = new google.maps.LatLngBounds();
+                        markers.forEach(marker => {
+                            bounds.extend(marker.getPosition());
+                        })
+                        map.fitBounds(bounds);
+
                     }
 
                     function close() {
